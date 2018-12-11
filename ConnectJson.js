@@ -20,7 +20,7 @@ function getWords(input1, results_body) {
 
 function testBox(word, tab_button) {
 
-    var url = "https://hiringsolved.com/api/v2/related?q=" + word + "&size=50&filter=true";
+    var url = "https://estasney.pythonanywhere.com/api/v2/related?q=" + word + "&scope=words&n=50";
     //Removes all the Buttons created from the last call
     document.getElementById(tab_button).innerHTML = "";
 
@@ -36,12 +36,14 @@ function testBox(word, tab_button) {
 
     document.getElementById(tab_button).appendChild(x);
     //Gets the JSON info from external source
-    $.get(url, function(response) {
+    $.getJSON(url, function(response) {
         //related is the dict in the returned json var response
-        for (var item in response.related) {
+        for (item in response[0].data) {
             var x = document.createElement("INPUT");
-            //var tab_area
-            var butId = response.related[item].id;
+
+
+            var butId = response[0].data[item][0];
+            var score = response[0].data[item][1];
 
             x.setAttribute("type", "button");
             x.setAttribute("class", "results_buttons");
